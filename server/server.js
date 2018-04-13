@@ -37,6 +37,25 @@ app.get('/api/books', (req, res) => {
   });
 });
 
+app.get('/api/getReviewer', (req, res) => {
+  let id= req.query.id;
+
+  User.findById(id, (err, doc) => {
+    if(err || !doc) return res.status(400).send(err || 'User not found');
+    res.json({
+      name: doc.name,
+      last: doc.lastname
+    });
+  });
+});
+
+app.get('/api/users', (req, res) => {
+  User.find({}, (err, users) => {
+    if(err) return res.status(400).send(err);
+    res.status(200).send(users);
+  });
+});
+
 // POST //
 app.post('/api/book', (req, res) => {
   const book = new Book(req.body);
@@ -72,6 +91,14 @@ app.post('/api/login', (req, res) => {
         message: "Wrong password"
       });
 
+      user.generateToken((err, user) => {
+        if(err) return res.status(400).send(err);
+        res.cookie('auth', user.token).json({
+          isAuth: true,
+          id: user._id,
+          email: user.email
+        });
+      });
     });
   });
 });
