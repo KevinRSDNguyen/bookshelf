@@ -1,9 +1,13 @@
 import axios from 'axios';
 
-export const getBooks = (limit = 10, start = 0, order = 'asc') => {
+export const getBooks = (limit = 10, start = 0, order = 'asc', list = '') => {
   const request = axios.get(`/api/books?limit=${limit}&skip=${start}&order=${order}`)
-    .then(({data}) => {
-      return data;
+    .then(({ data }) => {
+      if (list) {
+        return [...list,...data]
+      } else {
+        return data;
+      }
     });
 
   return {
