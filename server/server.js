@@ -62,7 +62,7 @@ app.get('/api/getReviewer', (req, res) => {
     if (err || !doc) return res.status(400).send(err || 'User not found');
     res.json({
       name: doc.name,
-      last: doc.lastname
+      lastname: doc.lastname
     });
   });
 });

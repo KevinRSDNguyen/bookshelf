@@ -36,3 +36,9 @@ export const getBookWithReviewer = (id) => {
     });
   };
 };
+
+export const clearBookWithReviewer = () => {
+  return {
+    type: "CLEAR_BOOK_W_REVIEWER"
+  }
+};
